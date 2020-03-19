@@ -3,11 +3,12 @@ plugins {
     id "io.spring.dependency-management" version "1.0.9.RELEASE"
     id "io.freefair.maven-optional" version "5.0.0-rc6"
     id "maven-publish"
+    id "signing"
 }
 
 group = "com.github.amuguelove"
 version = "1.0.0"
-description = "快速基础p6spy for Spring Boot"
+description = "fast integrate p6spy for Spring Boot"
 
 ext {
     set('springBootVersion', '2.2.5.RELEASE')
@@ -32,13 +33,84 @@ dependencyManagement {
     }
 }
 
+task sourceJar(type: Jar) {
+    classifier "sources"
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier "javadoc"
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives jar
+    archives sourceJar
+    archives javadocJar
+}
+
 publishing {
     publications {
-        maven(MavenPublication) {
+        mavenJava(MavenPublication) {
             groupId = 'com.github.amuguelove'
             artifactId = 'p6spy-spring-boot-autoconfigure'
             version = '1.0.0'
             from components.java
+
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom {
+                name = 'p6spy-spring-boot-autoconfigure'
+                description = 'quickly integrate p6spy for spring boot'
+                url = 'https://github.com/amuguelove/spring-boot-projects'
+                licenses {
+                    license {
+                        name = 'Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution = 'repo'
+                        comments = 'A business-friendly OSS license'
+                    }
+                }
+                developers {
+                    developer {
+                        name = 'liangbo'
+                        email = 'bo.liang0212@gmail.com'
+                        roles = ['Java Developer']
+                        url = "https://amuguelove.github.io"
+                    }
+                }
+                scm {
+                    url = 'https://github.com/amuguelove/spring-boot-projects'
+                    connection = 'scm:git:https://github.com/amuguelove/spring-boot-projects.git'
+                    developerConnection = 'scm:git:git@github.com:amuguelove/spring-boot-projects.git'
+                }
+            }
         }
     }
+
+    repositories {
+        maven {
+            name "oss"
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            credentials {
+                username = sonatypeUsername
+                password = sonatypePassword
+            }
+        }
+
+        maven {
+            name = 'oss-snapshot'
+            url = "https://oss.sonatype.org/content/repositories/snapshots"
+            credentials {
+                username = sonatypeUsername
+                password = sonatypePassword
+            }
+        }
+    }
+
+}
+
+signing {
+    sign publishing.publications.mavenJava
 }
