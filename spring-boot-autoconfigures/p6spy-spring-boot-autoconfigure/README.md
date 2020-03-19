@@ -3,11 +3,12 @@ Spring boot application integrates p6spy print logs quickly
 
 p6spy：https://github.com/p6spy/p6spy
 
-
 ## Quick start
 
+```
+implementation("com.github.amuguelove:p6spy-spring-boot-autoconfigure:1.0.0")
 
-
+```
 
 ## Configure application.yml
 
@@ -20,7 +21,6 @@ spring:
     username: xxx
     password: xxx
 
-
 p6spy:
   config:
     enabled: true
@@ -29,8 +29,6 @@ p6spy:
     customLogMessageFormat: 时间：%(currentTime) | SQL耗时： %(executionTime) ms | 连接信息： %(category)-%(connectionId) | 执行语句： %(sql)
 
 ```
-
-
 
 ## More p6spy configuration description
 
