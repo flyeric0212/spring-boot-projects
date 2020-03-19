@@ -1,0 +1,18 @@
+
+description = "Spring Boot Build"
+
+allprojects {
+    group "com.github.amuguelove"
+
+    repositories {
+        maven {
+            url "https://maven.aliyun.com/repository/central"
+        }
+        mavenCentral()
+        jcenter()
+    }
+
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor 60, "minutes"
+    }
+}

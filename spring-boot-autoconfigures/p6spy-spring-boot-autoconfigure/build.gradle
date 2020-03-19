@@ -1,0 +1,44 @@
+plugins {
+    id "java-library"
+    id "io.spring.dependency-management" version "1.0.9.RELEASE"
+    id "io.freefair.maven-optional" version "5.0.0-rc6"
+    id "maven-publish"
+}
+
+group = "com.github.amuguelove"
+version = "1.0.0"
+description = "快速基础p6spy for Spring Boot"
+
+ext {
+    set('springBootVersion', '2.2.5.RELEASE')
+    set('p6spyVersion', '3.8.7')
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+tasks.withType(JavaCompile) { options.encoding = 'utf-8' }
+
+dependencies {
+    api("p6spy:p6spy:${p6spyVersion}")
+    optional("org.springframework.boot:spring-boot-starter")
+    optional("org.springframework.boot:spring-boot-autoconfigure")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-starter-parent:${springBootVersion}"
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.github.amuguelove'
+            artifactId = 'p6spy-spring-boot-autoconfigure'
+            version = '1.0.0'
+            from components.java
+        }
+    }
+}
