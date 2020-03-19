@@ -53,10 +53,7 @@ javadoc {
     options.header = project.name
     // 静默javadoc检查（比如不支持@date会报错等），jdk 8+
     options.addStringOption('Xdoclint:none', '-quiet')
-    /**
-     * <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-     * 防止本地打开中文乱码
-     */
+    // 防止本地打开中文乱码
     options.addStringOption("charset", "UTF-8")
     // suppress warnings due to cross-module @see and @link references;
     // note that global 'api' task does display all warnings.
