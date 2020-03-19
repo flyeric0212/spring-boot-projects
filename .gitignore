@@ -28,5 +28,3 @@ logs/
 *.log
 **/*.log
 **/*.log.*
-
-gradle.properties
